@@ -5,6 +5,7 @@
 ## Цель
 Научиться анализировать и оптимизировать SQL-запросы с помощью планов выполнения в СУБД. Разобрать ключевые компоненты (EXPLAIN, EXPLAIN ANALYZE).
 
+
 ## Задачи:
 1. Создать таблицу table1 со следующими параметрами: 
 Поля: id1 int, id2 int, gen1 text, gen2 text
@@ -34,10 +35,14 @@ primary key (id1, id2, gen1)
 );
 ```
 
+
+
 ## 2. Создадим таблицу table2 со следующими параметрами: возмем наборы полей table1 с помощью директивы LIKE
 ```sql
 create table table22 (like table11);
 ```
+
+
 
 ## 3. Проверим, какое количество внешних таблиц присутствует в базе данных
 ```sql
@@ -69,6 +74,8 @@ insert into table22 select gen, gen, gen::text || 'text1', gen::text || 'text2' 
 ![ген 2](https://github.com/user-attachments/assets/f61714c4-c941-4036-964c-1c5c86094857)
 
 
+
+
 ## 5. C помощью директивы explain посмотрим план соединения таблиц table1 и table2 по ключу id1
 ```sql
 explain select *
@@ -80,6 +87,7 @@ join table22 t22 on t11.id1 = t22.id1;
 
 
 ![explain](https://github.com/user-attachments/assets/da5b415d-77bf-46dd-a44f-e38b6872e36c)
+
 
 
 
@@ -116,6 +124,8 @@ join table22 t22 on t11.id1 = t22.id1;
 ![explain](https://github.com/user-attachments/assets/da5b415d-77bf-46dd-a44f-e38b6872e36c)
 
 
+
+
 ## 7. Реализуем запросы с использованием joins , group by, вложенного подзапроса. Экспортируем план в файл, используя psql -qAt -f explain.sql>analyze.json
 Для начала нашем следующий запрос:
 
@@ -137,6 +147,8 @@ group by t11.id1, t22.id2, t11.id2, t22.id1,t11.gen1, t22.gen2, t11.gen2, t22.ge
 Получим файл:
 
 _EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.json
+
+
 
 ## Вывод
 Научилась анализировать и оптимизировать SQL-запросы с помощью планов выполнения в СУБД и разобрала ключевые компоненты (EXPLAIN, EXPLAIN ANALYZE).
