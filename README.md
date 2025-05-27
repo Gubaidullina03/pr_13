@@ -152,3 +152,10 @@ _EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.js
 
 ## Вывод
 Научилась анализировать и оптимизировать SQL-запросы с помощью планов выполнения в СУБД и разобрала ключевые компоненты (EXPLAIN, EXPLAIN ANALYZE).
+
+
+## Структура репозитория:
+- `ERD1_diagram.png` — ERD диаграмма схемы таблицы table11.
+- `ERD2_diagram.png` — ERD диаграмма схемы таблицы table22.
+- `Gubaidullina_Alina_Ilshatovna_pr13.sql` — SQL скрипт для создания таблиц.
+- `_EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.json` — Файл экспорта запроса с использованием joins , group by, .
