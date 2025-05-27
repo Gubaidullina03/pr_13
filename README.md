@@ -126,6 +126,13 @@ from table11 t11
 join table22 t22 on t11.id1 = t22.id1
 group by t11.id1, t22.id2, t11.id2, t22.id1,t11.gen1, t22.gen2, t11.gen2, t22.gen1;
 ```
+Получим результат:
+
+
+![Снимок экрана 2025-05-28 004252](https://github.com/user-attachments/assets/1202ffe5-67e4-4cee-a9b5-348a724b3bf9)
+
+
+
 
 Получим файл:
 
