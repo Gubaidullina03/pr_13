@@ -138,6 +138,10 @@ group by t1.id1, t2.id2, t1.id2, t2.id1, t1.gen1, t2.gen2, t1.gen2, t2.gen1;
 
 
 
+![Screenshot_76](https://github.com/user-attachments/assets/7544168b-c7b6-4078-a56d-1b1cb39861b7)
+
+
+
 ![Screenshot_74](https://github.com/user-attachments/assets/ee753876-c1a6-4c32-80ca-eb926f30405d)
 
 
