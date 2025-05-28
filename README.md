@@ -144,9 +144,7 @@ group by t1.id1, t2.id2, t1.id2, t2.id1, t1.gen1, t2.gen2, t1.gen2, t2.gen1;
 
 
 
-Получим файл:
-
-_EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.json
+Получим файл в формате .json и экспортируем его.
 
 
 ## 8. Сравним полученные результаты из пункта 6 с результатом на сайте https://tatiyants.com/pev/#/plans/new
