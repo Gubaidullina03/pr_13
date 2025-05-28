@@ -26,7 +26,7 @@ insert into table22 select gen, gen, gen::text || 'text1', gen::text || 'text2' 
 ## 1. Создадим таблицу table1 со следующими параметрами: 
 Поля: id1 int, id2 int, gen1 text, gen2 text
 ```sql
-create table if not exists table11 (
+create table if not exists table1 (
 id1 INT,
 id2 INT,
 gen1 TEXT, 
@@ -39,7 +39,7 @@ primary key (id1, id2, gen1)
 
 ## 2. Создадим таблицу table2 со следующими параметрами: возмем наборы полей table1 с помощью директивы LIKE
 ```sql
-create table table22 (like table11);
+create table table2 (like table1);
 ```
 
 
@@ -59,19 +59,12 @@ from pg_foreign_table;
 
 ## 4. Сгенерируем данные и вставим их в обе таблицы (200 тысяч и 400 тысяч соответственно)
 ```sql
-insert into table11 select gen, gen, gen::text || 'text1', gen::text || 'text2' from generate_series(1, 200000) gen;
+insert into table1 select gen, gen, gen::text || 'text1', gen::text || 'text2' from generate_series(1, 200000) gen;
 ```
 ```sql
-insert into table22 select gen, gen, gen::text || 'text1', gen::text || 'text2' from generate_series(1, 400000) gen;
+insert into table2 select gen, gen, gen::text || 'text1', gen::text || 'text2' from generate_series(1, 400000) gen;
 ```
 
-Получим результаты:
-
-
-![ген 1](https://github.com/user-attachments/assets/c0f4e5ca-3a7c-45a0-ae89-22987f7eaa7b)
-
-
-![ген 2](https://github.com/user-attachments/assets/f61714c4-c941-4036-964c-1c5c86094857)
 
 
 
@@ -79,14 +72,16 @@ insert into table22 select gen, gen, gen::text || 'text1', gen::text || 'text2' 
 ## 5. C помощью директивы explain посмотрим план соединения таблиц table1 и table2 по ключу id1
 ```sql
 explain select *
-from table11 t11
-join table22 t22 on t11.id1 = t22.id1;
+from table1 t1
+join table2 t2 on t1.id1 = t2.id1;
 ```
 
 Получим результат:
 
 
-![explain](https://github.com/user-attachments/assets/da5b415d-77bf-46dd-a44f-e38b6872e36c)
+
+![5 пункт](https://github.com/user-attachments/assets/d2c40e94-e7df-4616-ad91-b7d26efe9e09)
+
 
 
 
@@ -95,8 +90,8 @@ join table22 t22 on t11.id1 = t22.id1;
    1) план запроса встроенного инструмента dbeaver;
 ```sql
 select *
-from table11 t11
-join table22 t22 on t11.id1 = t22.id1;
+from table1 t1
+join table2 t2 on t1.id1 = t2.id1;
 ```
 
 Получим результат:
@@ -113,15 +108,16 @@ join table22 t22 on t11.id1 = t22.id1;
  2) с помощью директивы explain
 ```sql
 explain select *
-from table11 t11
-join table22 t22 on t11.id1 = t22.id1;
+from table1 t1
+join table2 t2 on t1.id1 = t2.id1;
 ```
 
 Получим результат:
 
 
 
-![explain](https://github.com/user-attachments/assets/da5b415d-77bf-46dd-a44f-e38b6872e36c)
+![5 пункт](https://github.com/user-attachments/assets/615aeff1-0f29-454f-9664-919f3d2e2edc)
+
 
 
 
@@ -132,14 +128,17 @@ join table22 t22 on t11.id1 = t22.id1;
 ```sql
 EXPLAIN (ANALYZE, COSTS, verbose,BUFFERS, FORMAT JSON)
 select *
-from table11 t11
-join table22 t22 on t11.id1 = t22.id1
-group by t11.id1, t22.id2, t11.id2, t22.id1,t11.gen1, t22.gen2, t11.gen2, t22.gen1;
+from table1 t1
+join table2 t2 on t1.id1 = t2.id1
+group by t1.id1, t2.id2, t1.id2, t2.id1, t1.gen1, t2.gen2, t1.gen2, t2.gen1;
 ```
+
 Получим результат:
 
 
-![Снимок экрана 2025-05-28 004252](https://github.com/user-attachments/assets/1202ffe5-67e4-4cee-a9b5-348a724b3bf9)
+
+![Screenshot_74](https://github.com/user-attachments/assets/ee753876-c1a6-4c32-80ca-eb926f30405d)
+
 
 
 
@@ -149,13 +148,33 @@ group by t11.id1, t22.id2, t11.id2, t22.id1,t11.gen1, t22.gen2, t11.gen2, t22.ge
 _EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.json
 
 
+## 8. Сравним полученные результаты из пункта 6 с результатом на сайте https://tatiyants.com/pev/#/plans/new
+
+Для этого мы скопируем .json код выполненного запроса в пугкте 6 и сам запрос:
+```sql
+select *
+from table1 t1
+join table2 t2 on t1.id1 = t2.id1;
+```
+
+Получаем результат: 
+
+
+![дерево](https://github.com/user-attachments/assets/c9185380-dd2e-4b15-b660-ada208c38e60)
+
+
+
+И заметим, что план запроса на данном сайте похож на план, представленный в dbeaver: мы получаем такое же дерево в математическом представленнии с двумя узлами.
+
+Результат можно посмотреть по ссылке https://tatiyants.com/pev/#/plans/plan_1748403040385
+
 
 ## Вывод
 Научилась анализировать и оптимизировать SQL-запросы с помощью планов выполнения в СУБД и разобрала ключевые компоненты (EXPLAIN, EXPLAIN ANALYZE).
 
 
 ## Структура репозитория:
-- `ERD1_diagram.png` — ERD диаграмма схемы таблицы table11.
-- `ERD2_diagram.png` — ERD диаграмма схемы таблицы table22.
+- `ERD1_diagram.png` — ERD диаграмма схемы таблицы table1.
+- `ERD2_diagram.png` — ERD диаграмма схемы таблицы table2.
 - `Gubaidullina_Alina_Ilshatovna_pr13.sql` — SQL скрипт для создания таблиц.
 - `_EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.json` — Файл экспорта запроса с использованием joins , group by, .
