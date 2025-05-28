@@ -53,7 +53,8 @@ from pg_foreign_table;
 Получим результат:
 
 
-![Снимок экрана 2025-05-28 002304](https://github.com/user-attachments/assets/c868cf6d-9d0e-4f8f-97e4-30c664d3f777)
+![Screenshot_75](https://github.com/user-attachments/assets/3864e89e-2262-4d6d-b294-6632b29a169a)
+
 
 
 
