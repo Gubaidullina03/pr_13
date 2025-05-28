@@ -174,7 +174,7 @@ join table2 t2 on t1.id1 = t2.id1;
 
 
 ## Структура репозитория:
-- `ERD1_diagram.png` — ERD диаграмма схемы таблицы table1.
-- `ERD2_diagram.png` — ERD диаграмма схемы таблицы table2.
+- `ERD1_diagrama.png` — ERD диаграмма схемы таблицы table1.
+- `ERD2_diagrama.png` — ERD диаграмма схемы таблицы table2.
 - `Gubaidullina_Alina_Ilshatovna_pr13.sql` — SQL скрипт для создания таблиц.
 - `_EXPLAIN_ANALYZE_COSTS_verbose_BUFFERS_FORMAT_JSON_select_from_t_202505280036.json` — Файл экспорта запроса с использованием joins , group by, .
